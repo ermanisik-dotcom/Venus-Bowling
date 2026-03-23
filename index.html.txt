@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venüs Bowling Menü</title>
+
+<style>
+body {
+margin:0;
+font-family:Arial;
+background:#0f0f0f;
+color:white;
+}
+
+header {
+text-align:center;
+padding:20px;
+font-size:24px;
+font-weight:bold;
+background:linear-gradient(90deg,#000,#1a1a1a);
+border-bottom:1px solid #333;
+}
+
+.categories {
+display:flex;
+overflow-x:auto;
+gap:10px;
+padding:10px;
+background:#111;
+}
+
+.categories button {
+background:#222;
+color:#fff;
+border:none;
+padding:10px 15px;
+border-radius:20px;
+white-space:nowrap;
+}
+
+.section-title {
+padding:15px;
+font-size:18px;
+font-weight:bold;
+color:#ffcc00;
+}
+
+.product {
+background:#1a1a1a;
+margin:12px;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,0.5);
+}
+
+.product img {
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.product-content {
+padding:12px;
+}
+
+.product h3 {
+margin:5px 0;
+}
+
+.product p {
+font-size:13px;
+color:#bbb;
+}
+
+.product button {
+width:100%;
+padding:12px;
+background:#ffcc00;
+color:black;
+border:none;
+border-radius:8px;
+font-weight:bold;
+}
+
+.cart-bar {
+position:fixed;
+bottom:0;
+width:100%;
+background:#ffcc00;
+color:black;
+padding:15px;
+text-align:center;
+font-weight:bold;
+font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎳 VENÜS BOWLING</header>
+
+<div class="categories">
+<button onclick="go('popular')">🔥 Çok Satan</button>
+<button onclick="go('menu')">🎳 Menü</button>
+<button onclick="go('pasta')">🍝</button>
+<button onclick="go('burger')">🍔</button>
+<button onclick="go('tatli')">🍰</button>
+</div>
+
+<!-- POPULAR -->
+<div id="popular">
+<div class="section-title">🔥 En Çok Satanlar</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?burger">
+<div class="product-content">
+<h3>Venüs Burger Menü – 320₺</h3>
+<button onclick="add('Venüs Burger Menü',320)">Sepete Ekle</button>
+</div>
+</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?pasta">
+<div class="product-content">
+<h3>Tavuklu Penne – 290₺</h3>
+<button onclick="add('Tavuklu Penne',290)">Sepete Ekle</button>
+</div>
+</div>
+
+</div>
+
+<!-- MENÜ -->
+<div id="menu">
+<div class="section-title">🎳 Bowling Menüleri</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?fastfood">
+<div class="product-content">
+<h3>2 Kişilik Menü – 650₺</h3>
+<p>2 Burger + 2 içecek + patates</p>
+<button onclick="add('2 Kişilik Menü',650)">Sepete Ekle</button>
+</div>
+</div>
+
+</div>
+
+<!-- PENNE -->
+<div id="pasta">
+<div class="section-title">🍝 Penneler</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?penne">
+<div class="product-content">
+<h3>Tavuklu Penne – 290₺</h3>
+<p>Özel Venüs soslu</p>
+<button onclick="add('Tavuklu Penne',290)">Sepete Ekle</button>
+</div>
+</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?cream-pasta">
+<div class="product-content">
+<h3>Kremalı Penne – 230₺</h3>
+<button onclick="add('Kremalı Penne',230)">Sepete Ekle</button>
+</div>
+</div>
+
+</div>
+
+<!-- BURGER -->
+<div id="burger">
+<div class="section-title">🍔 Burger Menü</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?cheeseburger">
+<div class="product-content">
+<h3>Cheeseburger Menü – 320₺</h3>
+<button onclick="add('Cheeseburger Menü',320)">Sepete Ekle</button>
+</div>
+</div>
+
+</div>
+
+<!-- TATLI -->
+<div id="tatli">
+<div class="section-title">🍰 Tatlılar</div>
+
+<div class="product">
+<img src="https://source.unsplash.com/600x400/?cake">
+<div class="product-content">
+<h3>San Sebastian – 160₺</h3>
+<button onclick="add('San Sebastian',160)">Sepete Ekle</button>
+</div>
+</div>
+
+</div>
+
+<div class="cart-bar" onclick="send()">
+🛒 Sipariş Ver (0₺)
+</div>
+
+<script>
+let cart=[];
+let total=0;
+
+function add(name,price){
+cart.push(name);
+total+=price;
+document.querySelector(".cart-bar").innerText="🛒 Sipariş Ver ("+total+"₺)";
+}
+
+function send(){
+let msg="Merhaba siparişim:%0A";
+cart.forEach(i=>msg+="- "+i+"%0A");
+msg+="Toplam: "+total+"₺%0AAdres:";
+window.open("https://wa.me/905XXXXXXXXX?text="+msg);
+}
+
+function go(id){
+document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>
+
+ 
