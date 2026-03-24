@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Venüs Menü</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f39c12;
+            --secondary: #27ae60;
+            --light: #ffffff;
+            --dark: #2d3436;
+            --bg: #f4f7f6;
+        }
+
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { margin: 0; background: var(--bg); color: var(--dark); padding-top: 140px; }
+
+        /* SABİT ÜST ALAN */
+        .fixed-header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: var(--light);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 { margin: 0; font-size: 20px; color: var(--primary); font-weight: 700; }
+
+        /* KATEGORİLER - DAHA BÜYÜK VE SABİT */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 12px 10px;
+            gap: 12px;
+            background: #fff;
+            scrollbar-width: none;
+        }
+        .categories::-webkit-scrollbar { display: none; }
+        
+        .cat-btn {
+            background: #f1f2f6;
+            border: 2px solid transparent;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            white-space: nowrap;
+            color: var(--dark);
+            transition: 0.3s;
+        }
+        .cat-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* SEPET İKONU */
+        .cart-trigger {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        /* ÜRÜNLER */
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        .section-title { font-size: 22px; font-weight: 700; margin: 25px 0 15px; color: var(--dark); padding-left: 5px; }
+        
+        .product-card {
+            background: white;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .product-info { padding: 15px; }
+        .product-name { font-size: 18px; font-weight: 600; margin: 0; }
+        .product-price { color: var(--primary); font-weight: 700; font-size: 19px; margin: 10px 0; }
+        
+        .note-area {
+            width: 100%;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 13px;
+            margin-bottom: 10px;
+            resize: none;
+        }
+
+        .add-btn {
+            width: 100%;
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* SEPET MODAL (GÖZDEN GEÇİRME) */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 25px 25px 0 0;
+            padding: 25px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .remove-btn { color: #ff4757; font-size: 12px; cursor: pointer; border: none; background: none; font-weight: 600; }
+
+        /* ALT ÇUBUK */
+        .footer-bar {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: white;
+            padding: 15px 20px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            z-index: 1500;
+        }
+        .footer-bar.active { display: flex; }
+        
+        .final-btn {
+            background: var(--secondary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="fixed-header">
+        <header>
+            <h1>VENÜS BOWLING</h1>
+            <div class="cart-trigger" onclick="openCart()">
+                🛒 <span id="cart-count">0</span>
+            </div>
+        </header>
+        <div class="categories">
+            <button class="cat-btn active" onclick="go('popular', this)">🔥 Popüler</button>
+            <button class="cat-btn" onclick="go('burger', this)">🍔 Burger</button>
+            <button class="cat-btn" onclick="go('pasta', this)">🍝 Makarna</button>
+            <button class="cat-btn" onclick="go('drinks', this)">🥤 İçecek</button>
+            <button class="cat-btn" onclick="go('dessert', this)">🍰 Tatlı</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="popular">
+            <div class="section-title">Popüler Lezzetler</div>
+            <div class="product-card">
+                <div class="product-info">
+                    <p class="product-name">Venüs Burger Menü</p>
+                    <p class="product-price">320₺</p>
+                    <textarea class="note-area" id="n1" placeholder="İstediğiniz bir değişiklik var mı? (Örn: Domates olmasın)"></textarea>
+                    <button class="add-btn" onclick="add('Venüs Burger Menü', 320, 'n1')">Sepete Ekle</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="burger">
+            <div class="section-title">Leziz Burgerler</div>
+            </div>
+
+        </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0">Siparişini Kontrol Et</h2>
+                <button onclick="closeCart()" style="border:none; background:none; font-size:20px;">✕</button>
+            </div>
+            
+            <div id="cart-list">
+                </div>
+
+            <div style="margin-top:20px; border-top:2px solid #eee; padding-top:15px;">
+                <div style="display:flex; justify-content:space-between; font-weight:700; font-size:20px;">
+                    <span>Toplam:</span>
+                    <span id="modal-total">0₺</span>
+                </div>
+                <p style="font-size:12px; color:gray; margin-top:10px;">* Siparişi tamamladığınızda WhatsApp üzerinden konum/adres istenecektir.</p>
+                <button class="final-btn" style="width:100%; margin-top:15px;" onclick="sendOrder()">Siparişi WhatsApp'tan Gönder</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bar" id="footer-bar">
+        <div>
+            <span style="font-size:13px; color:gray;">Toplam</span>
+            <div id="footer-total" style="font-size:20px; font-weight:700;">0₺</div>
+        </div>
+        <button class="final-btn" onclick="openCart()">Sepeti Onayla</button>
+    </div>
+
+    <script>
+        let cart = [];
+        const waNumber = "905374271737";
+
+        function add(name, price, noteId) {
+            const note = document.getElementById(noteId).value;
+            cart.push({ id: Date.now(), name, price, note });
+            document.getElementById(noteId).value = "";
+            updateUI();
+            
+            // Küçük bir onay efekti
+            const btn = event.target;
+            btn.innerText = "✓ Eklendi";
+            btn.style.background = "#27ae60";
+            setTimeout(() => {
+                btn.innerText = "Sepete Ekle";
+                btn.style.background = "#2d3436";
+            }, 800);
+        }
+
+        function remove(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateUI();
+            renderCartItems();
+        }
+
+        function updateUI() {
+            const count = cart.length;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('footer-total').innerText = total + "₺";
+            document.getElementById('modal-total').innerText = total + "₺";
+            
+            if(count > 0) document.getElementById('footer-bar').classList.add('active');
+            else {
+                document.getElementById('footer-bar').classList.remove('active');
+                closeCart();
+            }
+        }
+
+        function renderCartItems() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = "";
+            
+            cart.forEach(item => {
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <div style="flex:1">
+                            <div style="font-weight:600">${item.name}</div>
+                            <div style="font-size:12px; color:gray">${item.note ? 'Not: ' + item.note : 'Not yok'}</div>
+                            <div style="color:var(--primary); font-weight:700">${item.price}₺</div>
+                        </div>
+                        <button class="remove-btn" onclick="remove(${item.id})">Kaldır</button>
+                    </div>
+                `;
+            });
+        }
+
+        function openCart() {
+            if(cart.length === 0) return alert("Sepetiniz boş!");
+            renderCartItems();
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function go(id, btn) {
+            const el = document.getElementById(id);
+            if(el) {
+                const offset = 145;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = el.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function sendOrder() {
+            let msg = "*YENİ SİPARİŞ (VENÜS)*\n--------------------------\n";
+            let total = 0;
+            
+            cart.forEach((item, i) => {
+                msg += `*${i+1}. ${item.name}* (${item.price}₺)\n`;
+                if(item.note) msg += `   _Not: ${item.note}_\n`;
+                total += item.price;
+            });
+            
+            msg += `\n*TOPLAM: ${total}₺*`;
+            msg += `\n--------------------------\n*ADRES BİLGİSİ:* \n(Lütfen buraya açık adresinizi yazınız)`;
+
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Dışarı tıklayınca modal kapatma
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('cartModal')) closeCart();
+        }
+    </script>
+</body>
+</html>
