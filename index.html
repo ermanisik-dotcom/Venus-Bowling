@@ -3,391 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Venüs Bowling & Cafe | Premium Menü</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Venüs Bowling - Sipariş</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #d4a017; /* Gold */
-            --primary-light: #fdf6e3;
-            --dark: #1e272e;
-            --text-main: #2d3436;
-            --text-muted: #636e72;
-            --bg: #ffffff;
-            --card-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --ys-red: #fa0050; /* Yemeksepeti kırmızısı alternatifi veya Venüs kırmızısı */
+            --primary: #fa0050; 
+            --bg: #f5f5f5;
+            --text-dark: #191919;
+            --text-gray: #646464;
+            --border: #ebebeb;
         }
 
-        * { box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; background: var(--bg); color: var(--text-main); padding-top: 170px; overflow-x: hidden; }
+        * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: var(--bg); color: var(--text-dark); padding-bottom: 100px; }
 
-        /* HEADER SECTION */
-        .header-fixed {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid #f1f1f1;
+        /* ÜST BANNER & LOGO */
+        .hero {
+            height: 180px;
+            background: url('https://images.unsplash.com/photo-1513733439118-bfa191054693?w=800') center/cover;
+            position: relative;
+        }
+        .back-btn {
+            position: absolute; top: 15px; left: 15px;
+            background: white; border-radius: 50%; width: 35px; height: 35px;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .store-info {
+            background: white;
             padding: 20px;
+            border-radius: 20px 20px 0 0;
+            margin-top: -25px;
+            position: relative;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
         }
+        .store-name { font-size: 22px; font-weight: 700; margin: 0; }
+        .store-meta { display: flex; align-items: center; gap: 10px; margin-top: 5px; font-size: 14px; color: var(--text-gray); }
+        .rating { color: #ffb400; font-weight: 700; }
 
-        .brand-logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--dark);
-            letter-spacing: -1px;
-            margin: 0;
-        }
-        .brand-logo span { color: var(--primary); }
-
-        /* BÜYÜK VE BELİRGİN KATEGORİLER */
-        .nav-scroller {
-            overflow-x: auto;
-            padding: 10px 20px 20px;
-            display: flex;
-            gap: 12px;
+        /* KATEGORİ ÇUBUĞU */
+        .cat-nav {
+            position: sticky; top: 0;
+            background: white;
+            display: flex; overflow-x: auto;
+            padding: 10px 15px;
+            gap: 20px;
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
             scrollbar-width: none;
         }
-        .nav-scroller::-webkit-scrollbar { display: none; }
+        .cat-item {
+            white-space: nowrap; font-size: 15px; font-weight: 600; color: var(--text-gray);
+            padding-bottom: 5px; cursor: pointer; border-bottom: 3px solid transparent;
+        }
+        .cat-item.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-        .nav-pill {
-            background: #f8f9fa;
-            border: 1px solid #eee;
-            padding: 12px 24px;
-            border-radius: 16px;
-            white-space: nowrap;
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--text-muted);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-        .nav-pill.active {
-            background: var(--dark);
-            color: white;
-            border-color: var(--dark);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        /* ÜRÜN LİSTESİ */
+        .menu-section { background: white; margin-top: 10px; padding: 15px; }
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: var(--text-gray); }
 
-        /* ÜRÜN KARTLARI */
-        .container { padding: 0 20px 120px; max-width: 800px; margin: auto; }
-        .section-header { 
-            font-size: 24px; 
-            font-weight: 700; 
-            margin: 40px 0 20px; 
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .product-grid {
-            display: grid;
-            gap: 20px;
-        }
-
-        .item-card {
-            background: white;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--card-shadow);
-            transition: 0.3s;
-        }
-
-        .item-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #eee;
-        }
-
-        .item-body { padding: 20px; }
-        .item-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .item-title { font-size: 19px; font-weight: 700; color: var(--dark); margin: 0; }
-        .item-price { font-size: 19px; font-weight: 700; color: var(--primary); }
-        .item-desc { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px; }
-
-        /* NOT ALANI VE BUTON */
-        .item-note {
-            width: 100%;
-            background: #f8f9fa;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 13px;
-            margin-bottom: 12px;
-            outline: none;
-            transition: 0.3s;
-        }
-        .item-note:focus { border-color: var(--primary); background: white; }
-
-        .btn-add {
-            width: 100%;
-            background: var(--dark);
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 15px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-add:active { transform: scale(0.96); }
-
-        /* SEPET BAR (FLOATING) */
-        .cart-bar {
-            position: fixed;
-            bottom: 30px; left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 500px;
-            background: var(--dark);
-            color: white;
-            padding: 18px 25px;
-            border-radius: 20px;
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            z-index: 1100;
-            cursor: pointer;
-            animation: bounceUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes bounceUp { from { bottom: -100px; } to { bottom: 30px; } }
-        .cart-bar.active { display: flex; }
-
-        /* MODAL (SEPET İNCELEME) */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            display: none;
-            z-index: 2000;
-            justify-content: center;
-            align-items: flex-end;
-        }
-        .modal-sheet {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 30px 30px 0 0;
-            padding: 30px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .cart-row {
+        .product-item {
             display: flex;
             justify-content: space-between;
             padding: 15px 0;
-            border-bottom: 1px solid #f1f1f1;
-        }
-        .btn-remove { color: #eb4d4b; border: none; background: none; font-size: 13px; font-weight: 600; }
-
-        .btn-whatsapp {
-            background: #27ae60;
-            color: white;
-            width: 100%;
-            padding: 18px;
-            border-radius: 15px;
-            border: none;
-            font-weight: 700;
-            font-size: 17px;
-            margin-top: 20px;
+            border-bottom: 1px solid var(--border);
             cursor: pointer;
         }
+        .product-left { flex: 1; padding-right: 15px; }
+        .p-name { font-size: 16px; font-weight: 600; margin: 0; }
+        .p-desc { font-size: 13px; color: var(--text-gray); margin: 5px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .p-price { font-size: 16px; font-weight: 700; color: var(--text-dark); margin-top: 8px; }
 
+        .product-right { position: relative; width: 100px; height: 100px; }
+        .p-img { width: 100px; height: 100px; border-radius: 12px; object-fit: cover; }
+        .add-icon {
+            position: absolute; bottom: -5px; right: -5px;
+            background: white; color: var(--primary); border: 1px solid var(--border);
+            width: 30px; height: 30px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* NOT MODALI */
+        .note-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; z-index: 2000;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .note-content { background: white; width: 100%; max-width: 400px; border-radius: 15px; padding: 20px; }
+        textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 10px; margin: 15px 0; height: 80px; }
+
+        /* SEPET ALT BAR */
+        .cart-footer {
+            position: fixed; bottom: 20px; left: 15px; right: 15px;
+            background: var(--primary); color: white;
+            padding: 15px 20px; border-radius: 12px;
+            display: none; justify-content: space-between; align-items: center;
+            box-shadow: 0 10px 20px rgba(250,0,80,0.3); z-index: 1500;
+        }
     </style>
 </head>
 <body>
 
-<div class="header-fixed">
-    <div class="top-bar">
-        <h1 class="brand-logo">VENÜS<span>.</span></h1>
-        <div style="font-size: 14px; font-weight: 600; background: var(--primary-light); color: var(--primary); padding: 5px 12px; border-radius: 8px;">Açık</div>
-    </div>
-    <div class="nav-scroller">
-        <div class="nav-pill active" onclick="go('penneler', this)">🍝 Penneler</div>
-        <div class="nav-pill" onclick="go('tavuk', this)">🍗 Tavuk Menü</div>
-        <div class="nav-pill" onclick="go('aperatif', this)">🍔 Aperatif & Burger</div>
-        <div class="nav-pill" onclick="go('izgara', this)">🥩 Izgaralar</div>
-        <div class="nav-pill" onclick="go('salata', this)">🥗 Salatalar</div>
-        <div class="nav-pill" onclick="go('tatli', this)">🍰 Tatlılar</div>
+<div class="hero"><div class="back-btn">←</div></div>
+
+<div class="store-info">
+    <h1 class="store-name">Venüs Bowling</h1>
+    <div class="store-meta">
+        <span class="rating">★ 5.0</span>
+        <span>• (24 değerlendirme)</span>
+        <span style="color: #27ae60;">● Açık</span>
     </div>
 </div>
 
-<div class="container" id="menu-container">
-    </div>
-
-<div class="cart-bar" id="cart-bar" onclick="openCart()">
-    <div>
-        <span id="cart-count" style="background: var(--primary); padding: 2px 10px; border-radius: 8px; margin-right: 8px;">0</span>
-        <span style="font-weight: 600;">Siparişi İncele</span>
-    </div>
-    <div id="cart-total" style="font-size: 18px; font-weight: 700;">0₺</div>
+<div class="cat-nav">
+    <div class="cat-item active" onclick="scrollToSec('menuler')">Menüler</div>
+    <div class="cat-item" onclick="scrollToSec('burgerler')">Burgerler</div>
+    <div class="cat-item" onclick="scrollToSec('penneler')">Makarnalar</div>
+    <div class="cat-item" onclick="scrollToSec('tatlilar')">Tatlılar</div>
 </div>
 
-<div class="modal-overlay" id="modal-overlay">
-    <div class="modal-sheet">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
-            <h2 style="margin:0; font-size:24px;">Siparişin 🛒</h2>
-            <button onclick="closeCart()" style="border:none; background:none; font-size:24px;">✕</button>
-        </div>
-        <div id="cart-items-list"></div>
-        <div style="margin-top:25px;">
-            <div style="display:flex; justify-content:space-between; font-size:22px; font-weight:800;">
-                <span>Toplam</span>
-                <span id="modal-total-val" style="color:var(--primary)">0₺</span>
+<div class="container" id="menu-area">
+    <div class="menu-section" id="menuler">
+        <div class="section-title">Menüler</div>
+        <div class="product-item" onclick="showNoteModal('Hamburger Menü', 350, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300')">
+            <div class="product-left">
+                <p class="p-name">Hamburger Menü</p>
+                <p class="p-desc">Hamburger (Ev yapımı köfte) + Patates Kızartması + Kutu İçecek</p>
+                <p class="p-price">350,00 TL</p>
             </div>
-            <p style="font-size:13px; color:var(--text-muted); margin:15px 0;">Siparişiniz WhatsApp'a aktarıldığında lütfen açık adresinizi ekleyiniz.</p>
-            <button class="btn-whatsapp" onclick="sendToWhatsApp()">Siparişi Tamamla</button>
+            <div class="product-right">
+                <img class="p-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300">
+                <div class="add-icon">+</div>
+            </div>
+        </div>
+        <div class="product-item" onclick="showNoteModal('Barbekü Soslu Tavuk Menü', 320, 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=300')">
+            <div class="product-left">
+                <p class="p-name">Barbekü Soslu Tavuk Menü</p>
+                <p class="p-desc">Barbekü Soslu Tavuk + Mevsim Salata + Makarna + Kutu İçecek</p>
+                <p class="p-price">320,00 TL</p>
+            </div>
+            <div class="product-right">
+                <img class="p-img" src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=300">
+                <div class="add-icon">+</div>
+            </div>
         </div>
     </div>
+
+    <div class="menu-section" id="penneler">
+        <div class="section-title">Makarnalar</div>
+        <div class="product-item" onclick="showNoteModal('Tavuklu Penne', 290, 'https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=300')">
+            <div class="product-left">
+                <p class="p-name">Tavuklu Penne</p>
+                <p class="p-desc">Tavuk Fleto, Yeşil/Kırmızı Biber, Mantar, Venüs özel sosu ile.</p>
+                <p class="p-price">290,00 TL</p>
+            </div>
+            <div class="product-right">
+                <img class="p-img" src="https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=300">
+                <div class="add-icon">+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="note-modal" id="note-modal">
+    <div class="note-content">
+        <h3 id="modal-p-name">Ürün İsmi</h3>
+        <p style="font-size: 13px; color: var(--text-gray);">Varsa özel notunuzu yazınız (Örn: Turşu olmasın)</p>
+        <textarea id="temp-note" placeholder="Notunuzu buraya yazın..."></textarea>
+        <button onclick="confirmAdd()" style="width:100%; background:var(--primary); color:white; border:none; padding:12px; border-radius:10px; font-weight:700;">Sepete Ekle</button>
+        <button onclick="closeModal()" style="width:100%; background:none; color:var(--text-gray); border:none; margin-top:10px;">Vazgeç</button>
+    </div>
+</div>
+
+<div class="cart-footer" id="cart-footer" onclick="sendWhatsApp()">
+    <div style="font-weight: 700;">Sepeti Onayla (<span id="cart-qty">0</span>)</div>
+    <div id="cart-total" style="font-weight: 800; font-size: 18px;">0,00 TL</div>
 </div>
 
 <script>
-    const menuData = {
-        penneler: [
-            {n:"Tavuklu Penne", p:290, d:"Tavuk Fleto, Yeşil/Kırmızı Biber, Mantar, Venüs özel sosu.", i:"https://images.unsplash.com/photo-1555072956-7758afb20e8f?w=500"},
-            {n:"Sebzeli Penne", p:260, d:"Yeşil Biber, Kırmızı Biber, Mantar, Venüs özel sosu.", i:"https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=500"},
-            {n:"Köri Soslu Penne", p:230, d:"Köri sosu ve Venüs özel sosunun mükemmel uyumu.", i:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500"}
-        ],
-        tavuk: [
-            {n:"Barbekü Soslu Tavuk Menü", p:320, d:"Tavuk, Salata ve Makarna ile servis edilir.", i:"https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500"},
-            {n:"Köri Soslu Tavuk Menü", p:320, d:"Tavuk, Salata ve Makarna ile servis edilir.", i:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500"}
-        ],
-        aperatif: [
-            {n:"Venüs Burger Menü", p:320, d:"Özel Venüs soslu mantar, ev yapımı köfte, Cips ve İçecek.", i:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500"},
-            {n:"Tire Tost Menü", p:270, d:"Meşhur Tire Tostu, Cips ve Sütaş Ayran.", i:"https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500"},
-            {n:"Çıtır Tavuk Tabağı", p:290, d:"Çıtır Tavuk Fleto, Cips ve Bardak Cola.", i:"https://images.unsplash.com/photo-1562967914-608f82629710?w=500"}
-        ],
-        izgara: [
-            {n:"Izgara Köfte", p:360, d:"Ev yapımı Köfte, Patates Cipsi, Salata.", i:"https://images.unsplash.com/photo-1529692236671-f1f6e9481b2b?w=500"},
-            {n:"Ev Yapımı Mantı", p:250, d:"Süzme yoğurt ve özel sos ile.", i:"https://images.unsplash.com/photo-1616606103851-4089903c7395?w=500"}
-        ],
-        salata: [
-            {n:"Akdeniz Salata", p:190, d:"Taze yeşillikler ve beyaz peynir.", i:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500"},
-            {n:"Ton Balıklı Salata", p:240, d:"Ton balığı, mısır ve taze sebzeler.", i:"https://images.unsplash.com/photo-1546793665-c74683c3f38d?w=500"}
-        ],
-        tatli: [
-            {n:"San Sebastian", p:160, d:"Vazgeçilmez tadıyla meşhur San Sebastian Cheesecake.", i:"https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500"},
-            {n:"Waffle", p:220, d:"Bol meyve ve gerçek çikolata ile.", i:"https://images.unsplash.com/photo-1562339106-6973d7223253?w=500"},
-            {n:"Sufle", p:170, d:"Akışkan sıcak çikolata lezzeti.", i:"https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=500"}
-        ]
-    };
-
     let cart = [];
+    let currentItem = null;
 
-    function renderMenu() {
-        const container = document.getElementById('menu-container');
-        for (const [key, products] of Object.entries(menuData)) {
-            let sectionHtml = `<div id="${key}"><div class="section-header">${getSectionTitle(key)}</div><div class="product-grid">`;
-            products.forEach((p, idx) => {
-                const uniqueId = `${key}-${idx}`;
-                sectionHtml += `
-                    <div class="item-card">
-                        <img src="${p.i}" class="item-img" alt="${p.n}">
-                        <div class="item-body">
-                            <div class="item-top">
-                                <h3 class="item-title">${p.n}</h3>
-                                <span class="item-price">${p.p}₺</span>
-                            </div>
-                            <p class="item-desc">${p.d}</p>
-                            <input type="text" class="item-note" id="n-${uniqueId}" placeholder="Notunuz (Mantar olmasın vb.)">
-                            <button class="btn-add" onclick="addToCart('${p.n}', ${p.p}, 'n-${uniqueId}')">Sepete Ekle</button>
-                        </div>
-                    </div>
-                `;
-            });
-            sectionHtml += `</div></div>`;
-            container.innerHTML += sectionHtml;
-        }
+    function showNoteModal(name, price, img) {
+        currentItem = { name, price };
+        document.getElementById('modal-p-name').innerText = name;
+        document.getElementById('note-modal').style.display = 'flex';
     }
 
-    function getSectionTitle(key) {
-        const titles = {penneler:'Pasta & Penne', tavuk:'Tavuk Menüleri', aperatif:'Aperatifler', izgara:'Izgara & Mantı', salata:'Taze Salatalar', tatli:'Tatlılar'};
-        return titles[key];
+    function closeModal() {
+        document.getElementById('note-modal').style.display = 'none';
+        document.getElementById('temp-note').value = "";
     }
 
-    function addToCart(name, price, noteId) {
-        const note = document.getElementById(noteId).value;
-        cart.push({ id: Date.now(), name, price, note });
-        document.getElementById(noteId).value = "";
+    function confirmAdd() {
+        const note = document.getElementById('temp-note').value;
+        cart.push({ ...currentItem, note });
         updateUI();
-        
-        // Sepet animasyonu
-        const bar = document.getElementById('cart-bar');
-        bar.style.transform = "translateX(-50%) scale(1.05)";
-        setTimeout(() => bar.style.transform = "translateX(-50%) scale(1)", 200);
+        closeModal();
     }
 
     function updateUI() {
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        document.getElementById('cart-count').innerText = cart.length;
-        document.getElementById('cart-total').innerText = total + "₺";
-        document.getElementById('modal-total-val').innerText = total + "₺";
-        
-        if(cart.length > 0) document.getElementById('cart-bar').classList.add('active');
-        else { document.getElementById('cart-bar').classList.remove('active'); closeCart(); }
+        const qty = cart.length;
+        const total = cart.reduce((s, i) => s + i.price, 0);
+        document.getElementById('cart-qty').innerText = qty;
+        document.getElementById('cart-total').innerText = total.toFixed(2) + " TL";
+        document.getElementById('cart-footer').style.display = qty > 0 ? 'flex' : 'none';
     }
 
-    function openCart() {
-        const list = document.getElementById('cart-items-list');
-        list.innerHTML = "";
-        cart.forEach(item => {
-            list.innerHTML += `
-                <div class="cart-row">
-                    <div style="flex:1">
-                        <div style="font-weight:700">${item.name}</div>
-                        <div style="font-size:12px; color:var(--primary)">${item.note ? '📝 ' + item.note : ''}</div>
-                        <div style="font-weight:600; margin-top:5px;">${item.price}₺</div>
-                    </div>
-                    <button class="btn-remove" onclick="removeFromCart(${item.id})">Kaldır</button>
-                </div>
-            `;
-        });
-        document.getElementById('modal-overlay').style.display = 'flex';
-    }
-
-    function removeFromCart(id) {
-        cart = cart.filter(i => i.id !== id);
-        updateUI();
-        openCart();
-    }
-
-    function closeCart() { document.getElementById('modal-overlay').style.display = 'none'; }
-
-    function go(id, btn) {
+    function scrollToSec(id) {
         const el = document.getElementById(id);
-        window.scrollTo({ top: el.offsetTop - 160, behavior: 'smooth' });
-        document.querySelectorAll('.nav-pill').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' });
+        // Aktif tab rengini değiştir
+        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+        event.target.classList.add('active');
     }
 
-    function sendToWhatsApp() {
-        let text = "*YENİ SİPARİŞ (VENÜS BOWLING)*\n\n";
+    function sendWhatsApp() {
+        let msg = "*VENÜS BOWLING SİPARİŞİ*\n\n";
         cart.forEach((item, i) => {
-            text += `*${i+1}. ${item.name}* - ${item.price}₺\n`;
-            if(item.note) text += `   _Not: ${item.note}_\n`;
+            msg += `• *${item.name}* - ${item.price}TL\n`;
+            if(item.note) msg += `  _Not: ${item.note}_\n`;
         });
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        text += `\n*TOPLAM: ${total}₺*\n\n*ADRES:* \n(Lütfen buraya teslimat adresinizi yazınız)`;
-        window.open(`https://wa.me/905374271737?text=${encodeURIComponent(text)}`, '_blank');
+        const total = cart.reduce((s, i) => s + i.price, 0);
+        msg += `\n*Toplam: ${total.toFixed(2)} TL*\n\n*ADRES:* \n(Lütfen adresinizi buraya yazınız)`;
+        window.open(`https://wa.me/905374271737?text=${encodeURIComponent(msg)}`, '_blank');
     }
-
-    window.onclick = e => { if(e.target.id === 'modal-overlay') closeCart(); }
-    
-    renderMenu();
 </script>
 
 </body>
