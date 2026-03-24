@@ -10,39 +10,21 @@
         * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 120px; }
 
-        /* ÜST ALAN & LOGO - GÜNCELLENDİ */
         .header-container { 
-            background: white; 
-            padding: 30px 20px 20px 20px; 
-            text-align: center; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-bottom: 1px solid #f0f0f0;
+            background: white; padding: 30px 20px 20px 20px; text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 1px solid #f0f0f0;
         }
-        .header-container img { 
-            max-width: 220px; 
-            height: auto; 
-            display: block;
-            margin: 0 auto;
-        }
+        .header-container img { max-width: 220px; height: auto; display: block; margin: 0 auto; }
         .status-badge {
-            display: inline-block;
-            margin-top: 15px;
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            border: 1px solid #c8e6c9;
+            display: inline-block; margin-top: 15px; background: #e8f5e9; color: #2e7d32;
+            padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid #c8e6c9;
         }
 
-        /* KAYDIRILABİLİR KATEGORİLER */
         .cat-nav { position: sticky; top: 0; background: white; display: flex; overflow-x: auto; padding: 12px 15px; gap: 20px; border-bottom: 1px solid #eee; z-index: 1000; scrollbar-width: none; }
         .cat-nav::-webkit-scrollbar { display: none; }
         .cat-item { white-space: nowrap; font-size: 14px; font-weight: 700; color: var(--gray); cursor: pointer; border-bottom: 3px solid transparent; padding-bottom: 5px; transition: 0.3s; }
         .cat-item.active { color: var(--primary); border-bottom-color: var(--primary); }
 
-        /* ÜRÜN TASARIMI */
         .container { max-width: 700px; margin: auto; }
         .section-box { background: white; margin-top: 12px; padding: 15px; border-radius: 0; }
         .section-title { font-size: 18px; font-weight: 800; color: #333; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
@@ -58,10 +40,8 @@
         .p-img { width: 95px; height: 95px; border-radius: 12px; object-fit: cover; background: #eee; }
         .add-btn { position: absolute; bottom: -5px; right: -5px; background: white; color: var(--accent); border: 1px solid #ddd; width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        /* ALT SEPET BARI */
         .cart-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--accent); color: white; padding: 18px 25px; border-radius: 15px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(250,0,80,0.3); z-index: 1500; cursor: pointer; transition: 0.3s; }
 
-        /* MODAL SİSTEMİ */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; z-index: 2000; align-items: flex-end; justify-content: center; }
         .modal-box { background: white; width: 100%; max-width: 550px; border-radius: 25px 25px 0 0; padding: 25px; animation: slideUp 0.3s ease-out; max-height: 90vh; overflow-y: auto; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -78,8 +58,8 @@
 <body>
 
 <div class="header-container">
-    <img src="https://i.imgur.com/JdlJSWi.jpeg">
-    <div class="status-badge">● Restoran Açık</div>
+    <img src="https://i.imgur.com/JdlJSWi_d.jpeg?maxwidth=520&shape=thumb&fidelity=high" alt="Venüs Bowling Logo">
+    <div class="status-badge">● Restoran Açık </div>
 </div>
 
 <div class="cat-nav" id="main-nav">
@@ -89,7 +69,7 @@
     <div class="cat-item" onclick="go('izgara')">Izgara & Mantı</div>
     <div class="cat-item" onclick="go('salata')">Salatalar</div>
     <div class="cat-item" onclick="go('tatli')">Tatlılar</div>
-</div>
+    <div class="cat-item" onclick="go('icecekler')">İçecekler</div> </div>
 
 <div class="container">
     <div class="section-box" id="penneler"><div class="section-title">Penneler (Makarnalar)</div><div id="list-penneler"></div></div>
@@ -98,7 +78,7 @@
     <div class="section-box" id="izgara"><div class="section-title">Izgara & Mantı</div><div id="list-izgara"></div></div>
     <div class="section-box" id="salata"><div class="section-title">Salatalar</div><div id="list-salata"></div></div>
     <div class="section-box" id="tatli"><div class="section-title">Tatlılar</div><div id="list-tatli"></div></div>
-</div>
+    <div class="section-box" id="icecekler"><div class="section-title">Soğuk İçecekler</div><div id="list-icecekler"></div></div> </div>
 
 <div class="modal" id="modal-note">
     <div class="modal-box">
@@ -138,24 +118,22 @@
             {n:"Tavuklu Penne", p:290, d:"Tavuk Fleto, Sebzeler, Venüs Sos, Barilla Penne", i:"https://i.imgur.com/ZeeomJh_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
             {n:"Sebzeli Penne", p:260, d:"Yeşil/Kırmızı Biber, Mantar, Venüs Sos, Barilla Penne", i:"https://i.imgur.com/ZeeomJh_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
             {n:"Köri Soslu Penne", p:230, d:"Köri Sos, Venüs Sos, Barilla Penne", i:"https://i.imgur.com/ZeeomJh_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-           
         ],
         tavuk: [
-            {n:"Barbekü Soslu Tavuk Menü", p:320, d:"Tavuk-Salata-Makarna", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Köri Soslu Tavuk Menü", p:320, d:"Tavuk-Salata-Makarna", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
+            // Fiyatlar görsellerdeki gibi 400 TL yapıldı
+            {n:"Barbekü Soslu Tavuk Menü", p:400, d:"Barbekü Tavuk + Mevsim Salata + Makarna + İçecek", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
+            {n:"Köri Soslu Tavuk Menü", p:400, d:"Köri Soslu Tavuk + Mevsim Salata + Makarna + İçecek", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
+            {n:"Tavuk Sote Menü", p:400, d:"Tavuk Sote + Mevsim Salata + Makarna + İçecek", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
             {n:"Çıtır Tavuklu Menü", p:320, d:"Çıtır Tavuk-Salata-Makarna", i:"https://i.imgur.com/TuUada6_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Kekik Soslu Tavuk Menü", p:320, d:"Tavuk-Salata-Makarna", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Tavuk Sote Menü", p:320, d:"Tavuk-Salata-Makarna", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"}
+            {n:"Kekik Soslu Tavuk Menü", p:320, d:"Tavuk-Salata-Makarna", i:"https://i.imgur.com/WHTo1TA_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"}
         ],
         aperatif: [
-            {n:"Hamburger Menü", p:300, d:"Burger + Cips + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
+            // Hamburger Menü 350, Venüs Burgerler 370 TL yapıldı
+            {n:"Hamburger Menü", p:350, d:"Ev Yapımı Köfte + Patates Cipsi + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
+            {n:"Venüs Burger Menü", p:370, d:"Özel Mantar Soslu Burger + Cips + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
+            {n:"Acılı Venüs Burger Menü", p:370, d:"Acı Soslu Mantarlı Burger + Cips + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
             {n:"Cheeseburger Menü", p:320, d:"Peynirli Burger + Cips + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Venüs Burger Menü", p:320, d:"Özel Mantar Soslu Burger + Cips + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Acılı Venüs Burger Menü", p:320, d:"Acı Soslu Mantarlı Burger + Cips + İçecek", i:"https://i.imgur.com/Tl0hZh1_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
             {n:"Chicken Burger Menü", p:250, d:"Çıtır Tavuklu Burger + Cips + İçecek", i:"https://i.imgur.com/KCwz9px_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Çıtır Tavuk)", p:150, d:"Çıtır Tavuk + Patates Cipsi", i:"https://i.imgur.com/Bm9ltfT.jpeg"},
-            {n:"Tire Tostu", p:140, d:"Ege Sucukları, Tire Ekmeği", i:"https://i.imgur.com/YFlqIUT.jpeg"},
-            {n:"Karışık Tire Tostu", p:160, d:"Kaşar + Sucuk", i:"https://i.imgur.com/YFlqIUT.jpeg"},
             {n:"Tire Tost Menü", p:250, d:"Tost + Cips + Sütaş Ayran", i:"https://i.imgur.com/FrAGAtA.jpeg"},
             {n:"Cips (300 gr)", p:150, d:"Patates Patates Cipsi", i:"https://i.imgur.com/YyKqNQj.jpeg"}
         ],
@@ -165,14 +143,29 @@
         ],
         salata: [
             {n:"Akdeniz Salata", p:190, d:"Taze Yeşillikler, Beyaz Peynir", i:"https://i.imgur.com/JIuEpuL_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
-            {n:"Ton Balıklı Salata", p:240, d:"Ton Balığı, Mısır, Yeşillik", i:"https://i.imgur.com/bQmZdhM_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"},
             {n:"Tavuklu Salata", p:250, d:"Çıtır Tavuk Parçaları, Yeşillik", i:"https://i.imgur.com/NwUjlEN_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"}
         ],
         tatli: [
+            // Tüm pasta çeşitleri korundu
             {n:"Fıstık Rüyası", p:160, d:"Antep Fıstıklı Vazgeçilmez Tat", i:"https://i.imgur.com/5gkPmL3.jpg"},
             {n:"Devil's Fudge Cake", p:170, d:"Çikolatalı ve tarçınlı pandispanya çikolatalı krema", i:"https://i.imgur.com/RibxkWn.jpg"},
-            {n:"Frambuazlı Cheesecake", p:220, d:"Vazgeçilmez Frambuaz Tat", i:"https://i.imgur.com/tO32QQq.jpg"},
-            {n:"Mozaik", p:140, d:"Gerçek çikolata ve çifte kavrulmuş petibör bisküvi ile", i:"https://i.imgur.com/xlZeOZb_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"}
+            {n:"Frambuazlı Cheesecake", p:220, d:"Vazgeçilmez Frambuaz Lezzet", i:"https://i.imgur.com/tO32QQq.jpg"},
+            {n:"Mozaik Pasta", p:140, d:"Gerçek çikolata ve bisküvi", i:"https://i.imgur.com/xlZeOZb_d.jpeg?maxwidth=520&shape=thumb&fidelity=high"}
+        ],
+        icecekler: [
+            // Görsellerdeki tüm içecekler ve fiyatları (80 TL / 40 TL / 50 TL) eklendi
+            {n:"Coca-Cola (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/PYKU9ly.jpeg"},
+            {n:"Coca-Cola Zero Sugar", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/Yx5vhtQ.jpeg"},
+            {n:"Cappy Vişne (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/mZvHR4z.jpeg"},
+            {n:"Cappy Şeftali (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/50pqzjn.jpeg"},
+            {n:"Cappy Kayısı (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/6OKxLOl.jpeg"},
+            {n:"Cappy Karışık (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/D5DdL2B.jpeg"},
+            {n:"Fuse Tea Şeftali (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/dFn7oyh.jpeg"},
+            {n:"Fuse Tea Limon (33 cl.)", p:80, d:"Kutu İçecek", i:"https://i.imgur.com/HfFpBuv.jpeg"},
+            {n:"Soda (20 cl.)", p:40, d:"Cam Şişe", i:"https://i.imgur.com/CVSdyzM.jpeg"},
+            {n:"Mandalinalı Soda", p:50, d:"Cam Şişe", i:"https://i.imgur.com/LiuGJxW.jpeg"},
+            {n:"Elmalı Soda", p:50, d:"Cam Şişe", i:"https://i.imgur.com/bGc492U.jpeg"},
+            {n:"Limonlu Soda", p:50, d:"Cam Şişe", i:"https://i.imgur.com/rO6lo3x.jpeg"}
         ]
     };
 
@@ -190,7 +183,7 @@
                             <p class="p-price">${item.p},00 ₺</p>
                         </div>
                         <div class="p-img-box">
-                            <img class="p-img" src="${item.i}">
+                            <img class="p-img" src="${item.i}" onerror="this.src='https://via.placeholder.com/100'">
                             <div class="add-btn">+</div>
                         </div>
                     </div>
